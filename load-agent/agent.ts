@@ -101,6 +101,8 @@ const initializeAgent = async (withMediation, port, agentConfig = null) => {
       networks: [config.ledger]
     }),
     askar: new AskarModule({ ariesAskar }),
+    autoAcceptConnections: true,
+
 
     mediator: new MediatorModule({
       autoAcceptMediationRequests: true,
