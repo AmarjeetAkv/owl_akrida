@@ -17,8 +17,8 @@ import {
 
 //var indySdk = require('indy-sdk')
 
-// import { ariesAskar } from '@hyperledger/aries-askar-react-native'
-// import { AskarModule } from '@aries-framework/askar'
+import { ariesAskar } from '@hyperledger/nodejs'
+import { AskarModule } from '@aries-framework/askar'
 
 import {
   Agent, 
@@ -82,7 +82,6 @@ const initializeAgent = async (withMediation, port, agentConfig = null) => {
 
   if (!agentConfig || agentConfig === null || agentConfig.length === 0) {
     agentConfig = {
-      label: generateString(14),
       walletConfig: {
         id: generateString(32),
         key: generateString(32),
@@ -101,9 +100,10 @@ const initializeAgent = async (withMediation, port, agentConfig = null) => {
       indyVdr,
       networks: [config.ledger]
     }),
-    // askar: new AskarModule({
-    //   ariesAskar,
-    // }),
+    askar: new AskarModule({ ariesAskar }),
+    autoAcceptConnections: true,
+
+
     mediator: new MediatorModule({
       autoAcceptMediationRequests: true,
     }),

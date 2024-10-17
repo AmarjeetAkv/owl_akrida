@@ -21,7 +21,6 @@ class AcapyIssuer(BaseIssuer):
                                 },
                                 headers=headers
                         )
-                        print(f" reponse from OOB connection {r.text}")
 
                 else:
                         # Regular Connection
@@ -30,13 +29,7 @@ class AcapyIssuer(BaseIssuer):
                                 json={"metadata": {}, "my_label": "Test"},
                                 headers=headers,
                         )
-                        print(f" reponse from regular connection {r.text}")
-                        try_var = r.json()["invitation_url"]
-                        try_var1 = r.json()["connection_id"]
-                        print(f" ivitation irl is {try_var}")
-                        print(f" conneciton id is {try_var1}")
-
-
+                     
                         # Ensure the request worked
                         try:
                                 try_var = r.json()["invitation_url"]
