@@ -1,0 +1,7 @@
+
+load-agent/node_modules
+load-agent/__pycache__
+.env
+aries-framework-javascript
+*.DS_Store
+node_modules

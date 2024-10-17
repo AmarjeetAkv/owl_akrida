@@ -1,0 +1,26 @@
+{
+  "name": "load-agent",
+  "version": "1.1.0",
+  "description": "",
+  "main": "agent.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@credo-ts/anoncreds": "0.5.3",
+    "@credo-ts/askar": "0.5.3",
+    "@credo-ts/core": "0.5.3",
+    "@credo-ts/indy-vdr": "0.5.3",
+    "@credo-ts/node": "0.5.3",
+    "@credo-ts/react-native": "0.5.3",
+    "@hyperledger/anoncreds-nodejs": "0.2.2",
+    "@hyperledger/aries-askar-react-native": "0.2.3",
+    "@hyperledger/indy-vdr-nodejs": "0.2.2",
+    "deferred": "0.7.11",
+    "dotenv": "16.0.3",
+    "log-buffer": "0.0.3",
+    "typescript": "5.2.2"
+  }
+}
