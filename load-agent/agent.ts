@@ -102,7 +102,7 @@ const initializeAgent = async (withMediation, port, agentConfig = null) => {
       networks: [config.ledger]
     }),
     askar: new AskarModule({ ariesAskar }),
-
+    multiWalletDatabaseScheme: AskarMultiWalletDatabaseScheme,
 
     mediator: new MediatorModule({
       autoAcceptMediationRequests: true,
