@@ -136,7 +136,7 @@ class CustomClient:
             self.run_command(
                 {
                     "cmd": "start",
-                    "withMediation": self.withMediation,
+                    "withMediation": False,
                     "port": self.port,
                     "agentConfig": self.agentConfig if reinstantiate else None,
                 }
