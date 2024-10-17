@@ -19,7 +19,6 @@ RUN apt-get update -y && apt-get install -y curl gcc g++ make git libssl-dev pkg
 
 RUN yarn add @credo-ts/node@0.5.3 @credo-ts/core@0.5.3
 
-RUN yarn add @hyperledger/nodejs @aries-framework/askar
 RUN yarn add @types/hyperledger__nodejs @types/aries-framework__askar
 
 RUN yarn global add ts-node typescript
