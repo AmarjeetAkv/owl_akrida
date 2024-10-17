@@ -261,7 +261,6 @@ class CustomClient:
     @stopwatch
     def issuer_getinvite(self, out_of_band=False):
         get_ivitation_from_acapy = self.issuer.get_invite(out_of_band)
-        
         print(f" get invite from return of acapy {get_ivitation_from_acapy}")
         return get_ivitation_from_acapy
         

@@ -10,39 +10,58 @@ class AcapyIssuer(BaseIssuer):
                 headers = json.loads(os.getenv("ISSUER_HEADERS"))
                 headers["Content-Type"] = "application/json"
 
-                
+                if out_of_band:
+                        # Out of Band Connection 
+                        # (ACA-Py v10.4 - only works with connections protocol, not DIDExchange) 
+                        r = requests.post(
+                                os.getenv("ISSUER_URL") + "/out-of-band/create-invitation?auto_accept=true", 
+                                json={
+                                "metadata": {}, 
+                                "handshake_protocols": ["https://didcomm.org/connections/1.0"]
+                                },
+                                headers=headers
+                        )
+                        print(f" reponse from OOB connection {r.text}")
 
-              # Regular Connection
-                r = requests.post(
-                        os.getenv("ISSUER_URL") + "/connections/create-invitation?auto_accept=true",
-                        json={"metadata": {}, "my_label": "Test"},
-                        headers=headers,
-                )
-                print(f" reponse from regular connection {r.text}")
-                try_var = r.json()["invitation_url"]
-                try_var1 = r.json()["connection_id"]
-                print(f" ivitation irl is {try_var}")
-                print(f" conneciton id is {try_var1}")
-
-
-                # Ensure the request worked
-                try:
+                else:
+                        # Regular Connection
+                        r = requests.post(
+                                os.getenv("ISSUER_URL") + "/connections/create-invitation?auto_accept=true",
+                                json={"metadata": {}, "my_label": "Test"},
+                                headers=headers,
+                        )
+                        print(f" reponse from regular connection {r.text}")
                         try_var = r.json()["invitation_url"]
-                except Exception:
-                        raise Exception("Failed to get invitation url. Request: ", r.json())
-                if r.status_code != 200:
-                        raise Exception(r.content)
+                        try_var1 = r.json()["connection_id"]
+                        print(f" ivitation irl is {try_var}")
+                        print(f" conneciton id is {try_var1}")
+
+
+                        # Ensure the request worked
+                        try:
+                                try_var = r.json()["invitation_url"]
+                        except Exception:
+                                raise Exception("Failed to get invitation url. Request: ", r.json())
+                        if r.status_code != 200:
+                                raise Exception(r.content)
 
                 r = r.json()
 
-               
+                # If OOB, need to grab connection_id
+                if out_of_band:
+                        invitation_msg_id = r['invi_msg_id']
+                        g = requests.get(
+                                os.getenv("ISSUER_URL") + "/connections",
+                                params={"invitation_msg_id": invitation_msg_id},
+                                headers=headers,
+                        )
+                        # Returns only one
+                        connection_id = g.json()['results'][0]['connection_id']
+                        r['connection_id'] = connection_id 
                 
                 return {
-                        'type': r['type'], 
-                        'id': r['id'],
-                        'label': r['label'], 
-                        'recipientKeys': r['recipientKeys'],
-                        'serviceEndpoint': r['serviceEndpoint']
+                        'invitation_url': r['invitation_url'], 
+                        'connection_id': r['connection_id']
                 }
 
         def is_up(self):
