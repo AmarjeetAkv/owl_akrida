@@ -17,8 +17,8 @@ import {
 
 //var indySdk = require('indy-sdk')
 
-import { ariesAskar } from '@hyperledger/nodejs'
-import { AskarModule } from '@aries-framework/askar'
+import { ariesAskar } from '@hyperledger/aries-askar-nodejs'
+import { AskarModule, AskarMultiWalletDatabaseScheme } from '@credo-ts/askar'
 
 import {
   Agent, 
