@@ -85,13 +85,14 @@ const initializeAgent = async (withMediation, port, agentConfig = null) => {
       walletConfig: {
         id: generateString(32),
         key: generateString(32),
+        
       },
       autoAcceptConnections: true,
       endpoints: endpoints,
 
       autoAcceptInvitation: true,
       // logger: new ConsoleLogger(LogLevel.trace),
-      didCommMimeType: DidCommMimeType.V0,
+      didCommMimeType: DidCommMimeType.V1,
     }
   }
 
