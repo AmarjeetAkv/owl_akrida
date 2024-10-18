@@ -63,7 +63,7 @@ import { anoncreds } from '@hyperledger/anoncreds-nodejs'
 import { ariesAskar } from '@hyperledger/aries-askar-nodejs'
 import { indyVdr } from '@hyperledger/indy-vdr-nodejs'
 import { agentDependencies, HttpInboundTransport, WsInboundTransport } from '@credo-ts/node'
-
+import express from 'express'
 var config = require('./config.js')
 
 var deferred = require('deferred')
@@ -195,10 +195,31 @@ const initializeAgent = async (withMediation, port, agentConfig = null) => {
   
   // console.log('Agent at line 202',agent);
   // Register a simple `WebSocket` outbound transport
-  agent.registerOutboundTransport(new WsOutboundTransport())
+  // agent.registerOutboundTransport(new WsOutboundTransport())
 
-  // Register a simple `Http` outbound transport
-  agent.registerOutboundTransport(new HttpOutboundTransport())
+  // // Register a simple `Http` outbound transport
+  // agent.registerOutboundTransport(new HttpOutboundTransport())
+    const apps = express()
+    // console.log('Apps:',apps);  
+    const wsTransport = new WsOutboundTransport()
+    const httpTransport = new HttpOutboundTransport()
+    // const socketServer = new WebSocketServer({ port:4003,host:'127.0.0.1' })
+    // console.log('socketServer:',socketServer)
+    // const wsInboundTransport = new WsInboundTransport({server:socketServer})
+    const httpInbound = new HttpInboundTransport({
+      port:4002,
+      app:apps,
+      path:'/'
+    })
+
+    console.log('wsTransport: ',wsTransport)
+    console.log('httpTransport: ',httpTransport)
+    console.log('httpInbound: ',httpInbound)
+
+    agent.registerOutboundTransport(wsTransport)
+    agent.registerOutboundTransport(httpTransport)
+    // agent.registerInboundTransport(wsInboundTransport)
+    // agent.registerInboundTransport(httpInbound);
 
   if (withMediation) {
     // wait for medation to be configured
@@ -255,9 +276,10 @@ const initializeAgent = async (withMediation, port, agentConfig = null) => {
       throw 'Mediator timeout!'
     }
   } else {
-    agent.registerInboundTransport(
-      new HttpInboundTransport({ port: port })
-    )
+    // agent.registerInboundTransport(
+    //   new HttpInboundTransport({ port: port })
+    // )
+    agent.registerInboundTransport(httpInbound);
     await agent.initialize()
   }
 
