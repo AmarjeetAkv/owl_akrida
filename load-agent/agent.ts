@@ -97,10 +97,10 @@ const initializeAgent = async (withMediation, port, agentConfig = null) => {
 
   if (!agentConfig || agentConfig === null || agentConfig.length === 0) {
     agentConfig = {
-      label: 'Akrida test wallet',
+      label: generateString(14),
       walletConfig: {
-        id: "Test Akrida",
-        key: "Test Akrida2",
+        id:  generateString(32),
+        key:  generateString(32),
       },
       autoAcceptConnections: true,
       endpoints: endpoints,
