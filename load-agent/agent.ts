@@ -64,6 +64,7 @@ import { ariesAskar } from '@hyperledger/aries-askar-nodejs'
 import { indyVdr } from '@hyperledger/indy-vdr-nodejs'
 import { agentDependencies, HttpInboundTransport, WsInboundTransport } from '@credo-ts/node'
 import express from 'express'
+
 var config = require('./config.js')
 
 var deferred = require('deferred')
@@ -96,9 +97,10 @@ const initializeAgent = async (withMediation, port, agentConfig = null) => {
 
   if (!agentConfig || agentConfig === null || agentConfig.length === 0) {
     agentConfig = {
+      label: 'Akrida test wallet',
       walletConfig: {
-        id: generateString(32),
-        key: generateString(32),
+        id: "Test Akrida",
+        key: "Test Akrida2",
       },
       autoAcceptConnections: true,
       endpoints: endpoints,
@@ -188,20 +190,25 @@ const initializeAgent = async (withMediation, port, agentConfig = null) => {
   })
   
     const apps = express()
-
+    // console.log('Apps:',apps);
     const wsTransport = new WsOutboundTransport()
     const httpTransport = new HttpOutboundTransport()
-
+    // const socketServer = new WebSocketServer({ port:4003,host:'127.0.0.1' })
+    // console.log('socketServer:',socketServer)
+    // const wsInboundTransport = new WsInboundTransport({server:socketServer})
     const httpInbound = new HttpInboundTransport({
       port:4002,
       app:apps,
       path:'/'
     })
 
+    // console.log('wsTransport: ',wsTransport)
+    // console.log('httpTransport: ',httpTransport)
+    // console.log('httpInbound: ',httpInbound)
 
     agent.registerOutboundTransport(wsTransport)
     agent.registerOutboundTransport(httpTransport)
-
+  // // console.log('Agent at line 202',agent);
   // Register a simple `WebSocket` outbound transport
   // agent.registerOutboundTransport(new WsOutboundTransport())
 
@@ -262,6 +269,7 @@ const initializeAgent = async (withMediation, port, agentConfig = null) => {
       throw 'Mediator timeout!'
     }
   } else {
+    // console.log('withMediation elseee',port)
     // agent.registerInboundTransport(
     //   new HttpInboundTransport({ port: port })
     // )
