@@ -17,7 +17,7 @@ from gevent import lock as gevent_lock
 
 from uuid import uuid4
 
-SHUTDOWN_TIMEOUT_SECONDS = 10
+SHUTDOWN_TIMEOUT_SECONDS = 20
 READ_TIMEOUT_SECONDS = 120  # stdout feedback
 ERRORS_BEFORE_RESTART = 10
 # How long to wait for verified = true state
@@ -136,7 +136,7 @@ class CustomClient:
             self.run_command(
                 {
                     "cmd": "start",
-                    "withMediation": False,
+                    "withMediation": self.withMediation,
                     "port": self.port,
                     "agentConfig": self.agentConfig if reinstantiate else None,
                 }
@@ -150,6 +150,7 @@ class CustomClient:
             if self.agent is None or self.agent.poll() is not None:
                 raise Exception("unable to start")
         except Exception as e:
+            # print('error at startup:',e)
             self.shutdown()
             raise e
 
@@ -260,9 +261,7 @@ class CustomClient:
 
     @stopwatch
     def issuer_getinvite(self, out_of_band=False):
-        get_ivitation_from_acapy = self.issuer.get_invite(out_of_band)
-        print(f" get invite from return of acapy {get_ivitation_from_acapy}")
-        return get_ivitation_from_acapy
+        return self.issuer.get_invite(out_of_band)
         
     @stopwatch
     def issuer_getliveness(self):
@@ -276,7 +275,6 @@ class CustomClient:
 
     @stopwatch
     def accept_invite(self, invite, useConnectionDid=False):
-        print(f" invite from client line 279 {invite}")
         try:
             if useConnectionDid:
                 self.run_command({"cmd": "receiveInvitationConnectionDid", "invitationUrl": invite})
@@ -286,7 +284,7 @@ class CustomClient:
             self.run_command({"cmd": "receiveInvitation", "invitationUrl": invite})
 
         line = self.readjsonline()
-        print(f"printing the value of line from client page 289  {line}")
+
         return line["connection"]
 
     @stopwatch

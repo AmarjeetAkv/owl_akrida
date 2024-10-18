@@ -21,7 +21,6 @@ class AcapyIssuer(BaseIssuer):
                                 },
                                 headers=headers
                         )
-
                 else:
                         # Regular Connection
                         r = requests.post(
@@ -29,7 +28,7 @@ class AcapyIssuer(BaseIssuer):
                                 json={"metadata": {}, "my_label": "Test"},
                                 headers=headers,
                         )
-                     
+
                         # Ensure the request worked
                         try:
                                 try_var = r.json()["invitation_url"]

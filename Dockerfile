@@ -17,8 +17,7 @@ RUN apt-get update -y && apt-get install -y curl gcc g++ make git libssl-dev pkg
 
 #RUN npm install --global yarn
 
-RUN yarn add @credo-ts/node@0.5.3 @credo-ts/core@0.5.3
-
+# RUN yarn add @credo-ts/node@0.5.3 @credo-ts/core@0.5.3
 
 RUN yarn global add ts-node typescript
 
