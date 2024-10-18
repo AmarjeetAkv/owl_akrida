@@ -84,10 +84,7 @@ function generateString(length) {
 
   return result
 }
-// console.log('config: ',config);
-// console.log('readLine: ',readline);
 
-// console.log('above initializeAgent')
 const initializeAgent = async (withMediation, port, agentConfig = null) => {
   // Simple agent configuration. This sets some basic fields like the wallet
   // configuration and the label. It also sets the mediator invitation url,
@@ -96,8 +93,6 @@ const initializeAgent = async (withMediation, port, agentConfig = null) => {
     // console.log('initializeAgent start');
   let mediation_url = config.mediation_url
   let endpoints = ['http://' + config.agent_ip + ':' + port]
-  // console.log('endpoints:',endpoints);
-  // console.log('mediation_url: ',mediation_url)
 
   if (!agentConfig || agentConfig === null || agentConfig.length === 0) {
     agentConfig = {
@@ -193,14 +188,8 @@ const initializeAgent = async (withMediation, port, agentConfig = null) => {
     modules: modules
   })
   
-  // console.log('Agent at line 202',agent);
-  // Register a simple `WebSocket` outbound transport
-  // agent.registerOutboundTransport(new WsOutboundTransport())
-
-  // // Register a simple `Http` outbound transport
-  // agent.registerOutboundTransport(new HttpOutboundTransport())
     const apps = express()
-    // console.log('Apps:',apps);  
+
     const wsTransport = new WsOutboundTransport()
     const httpTransport = new HttpOutboundTransport()
     // const socketServer = new WebSocketServer({ port:4003,host:'127.0.0.1' })
@@ -212,14 +201,15 @@ const initializeAgent = async (withMediation, port, agentConfig = null) => {
       path:'/'
     })
 
-    console.log('wsTransport: ',wsTransport)
-    console.log('httpTransport: ',httpTransport)
-    console.log('httpInbound: ',httpInbound)
 
     agent.registerOutboundTransport(wsTransport)
     agent.registerOutboundTransport(httpTransport)
-    // agent.registerInboundTransport(wsInboundTransport)
-    // agent.registerInboundTransport(httpInbound);
+
+  // Register a simple `WebSocket` outbound transport
+  // agent.registerOutboundTransport(new WsOutboundTransport())
+
+  // // Register a simple `Http` outbound transport
+  // agent.registerOutboundTransport(new HttpOutboundTransport())
 
   if (withMediation) {
     // wait for medation to be configured
@@ -260,7 +250,6 @@ const initializeAgent = async (withMediation, port, agentConfig = null) => {
       onConnectedMediation
     )
 
-    // console.log('Agent at line 248',agent);
     // Initialize the agent
     await agent.initialize()
 
@@ -287,6 +276,7 @@ const initializeAgent = async (withMediation, port, agentConfig = null) => {
 
   } catch (error) {
     // console.log('Error at intialize agent',error);
+    process.stderr.write('******** ERROR Error at intialize agent'+ '\n' + error + '\n')
   }
   
 }

@@ -130,6 +130,7 @@ class CustomClient:
                 universal_newlines=True,
                 stdout=subprocess.PIPE,
                 stdin=subprocess.PIPE,
+                stderr=None,
                 shell=False,
             )
 
@@ -150,7 +151,7 @@ class CustomClient:
             if self.agent is None or self.agent.poll() is not None:
                 raise Exception("unable to start")
         except Exception as e:
-            # print('error at startup:',e)
+            print('error at startup:',e)
             self.shutdown()
             raise e
 
