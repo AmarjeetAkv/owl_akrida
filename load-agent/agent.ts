@@ -96,10 +96,9 @@ const initializeAgent = async (withMediation, port, agentConfig = null) => {
 
   if (!agentConfig || agentConfig === null || agentConfig.length === 0) {
     agentConfig = {
-      label: 'Akrida test wallet',
       walletConfig: {
-        id: "Test Akrida",
-        key: "Test Akrida2",
+        id: generateString(32),
+        key: generateString(32),
       },
       autoAcceptConnections: true,
       endpoints: endpoints,
@@ -192,9 +191,7 @@ const initializeAgent = async (withMediation, port, agentConfig = null) => {
 
     const wsTransport = new WsOutboundTransport()
     const httpTransport = new HttpOutboundTransport()
-    // const socketServer = new WebSocketServer({ port:4003,host:'127.0.0.1' })
-    // console.log('socketServer:',socketServer)
-    // const wsInboundTransport = new WsInboundTransport({server:socketServer})
+
     const httpInbound = new HttpInboundTransport({
       port:4002,
       app:apps,
