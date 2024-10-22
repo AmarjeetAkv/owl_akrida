@@ -45,11 +45,11 @@ class UserBehaviour(SequentialTaskSet):
 
         credential = self.client.receive_credential(self.invite['connection_id'])
 
-    @task
-    def delete_connection(self):
-        print(f"into the function to delete the oob")
-        self.client.ensure_is_running()
-        self.client.delete_oob(self.invite['connection_id'])
+    # @task
+    # def delete_connection(self):
+    #     print(f"into the function to delete the oob")
+    #     self.client.ensure_is_running()
+    #     self.client.delete_oob(self.invite['connection_id'])
 
 
 class Issue(CustomLocust):
