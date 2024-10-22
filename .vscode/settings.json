@@ -1,0 +1,8 @@
+{
+    "workbench.activityBar.iconClickBehavior": "toggle",
+    "workbench.activityBar.location": "default",
+    "terminal.integrated.commandsToSkipShell": [
+        ""
+    ],
+    "explorer.fileNesting.enabled": false
+}
