@@ -44,7 +44,7 @@ class UserBehaviour(SequentialTaskSet):
     @task
     def delete_connection(self):
         self.client.ensure_is_running()
-        self.clent.delete_oob(self.invite['connection_id'])
+        self.client.delete_oob(self.invite['connection_id'])
 
 
 class Issue(CustomLocust):
