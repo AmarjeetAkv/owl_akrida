@@ -19,23 +19,27 @@ class CustomLocust(User):
 class UserBehaviour(SequentialTaskSet):
     def on_start(self):
         self.client.startup(withMediation=bool(WITH_MEDIATION))
+        self.get_invite()
+        self.accept_invite()
+        self.receive_credential()
+      
 
     def on_stop(self):
         self.client.shutdown()
 
-    @task
+    
     def get_invite(self):
         invite = self.client.issuer_getinvite()
         self.invite = invite
 
-    @task
+    
     def accept_invite(self):
         self.client.ensure_is_running()
 
         connection = self.client.accept_invite(self.invite['invitation_url'])
         self.connection = connection
 
-    @task
+    
     def receive_credential(self):
         self.client.ensure_is_running()
 
@@ -43,6 +47,7 @@ class UserBehaviour(SequentialTaskSet):
 
     @task
     def delete_connection(self):
+        print(f"into the function to delete the oob")
         self.client.ensure_is_running()
         self.client.delete_oob(self.invite['connection_id'])
 
