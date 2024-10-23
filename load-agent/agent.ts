@@ -360,7 +360,7 @@ let receiveInvitation = async (agent, invitationUrl) => {
       ) {
         // the connection is now ready for usage in other protocols!
         // console.log(`connection record: ${payload.connectionRecord}`);
-        process.stderr.write('******** ERROR Error at intialize agent'+ '\n' + payload.connectionRecord + '\n')
+        //process.stderr.write('******** ERROR Error at intialize agent'+ '\n' + payload.connectionRecord + '\n')
         // console.log(`Connection for out-of-band id ${payload.connectionRecord.outOfBandId} completed`)
         
         conn_id = payload.connectionRecord.outOfBandId
