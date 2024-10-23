@@ -70,7 +70,7 @@ var config = require('./config.js')
 var deferred = require('deferred')
 var process = require('process')
 var readline = require('readline')
-
+let conn_id
 const characters =
   'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 const legacyIndyCredentialFormat = new LegacyIndyCredentialFormatService()
@@ -339,7 +339,8 @@ const pingMediator = async (agent) => {
 }
 
 let deleteOobRecordById = async (agent, id) => {
-  await agent.oob.deleteById(id);
+  //await agent.oob.deleteById(id);
+  await agent.connection.deleteById(id);
 };
 
 let receiveInvitation = async (agent, invitationUrl) => {
@@ -358,7 +359,11 @@ let receiveInvitation = async (agent, invitationUrl) => {
         payload.connectionRecord.state === DidExchangeState.Completed
       ) {
         // the connection is now ready for usage in other protocols!
-        // console.log(`Connection for out-of-band id ${payload.connectionRecord.outOfBandId} completed`)
+        console.log(`connection record: ${payload.connectionRecord}`);
+        
+        console.log(`Connection for out-of-band id ${payload.connectionRecord.outOfBandId} completed`)
+        
+        conn_id = payload.connectionRecord.outOfBandId
         // Custom business logic can be included here
         // In this example we can send a basic message to the connection, but
         // anything is possible
@@ -650,7 +655,7 @@ rl.on('line', async (line) => {
         JSON.stringify({ error: 0, result: 'Ping Mediator' }) + '\n'
       )
     } else if (command['cmd'] == 'deleteOobRecordById') {
-      await deleteOobRecordById(agent, command['id'])
+      await deleteOobRecordById(agent, command[conn_id])
 
       process.stdout.write(
         JSON.stringify({ error: 0, result: 'Delete OOB Record' }) + '\n'
