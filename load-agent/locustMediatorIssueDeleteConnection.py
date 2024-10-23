@@ -48,6 +48,11 @@ class UserBehaviour(SequentialTaskSet):
         except Exception as e:
             print(f"Failed to delete connection Error: {e}")
 
+    @task
+    def msg_client(self):
+        # I think this should be @id....
+        self.client.msg_client(self.invite['connection_id'])
+
 
 class Issue(CustomLocust):
     tasks = [UserBehaviour]
