@@ -19,16 +19,19 @@ class CustomLocust(User):
 class UserBehaviour(SequentialTaskSet):
     def on_start(self):
         self.client.startup(withMediation=bool(WITH_MEDIATION))
+        self.get_invite()
+        self.accept_invite()
+        self.delete_connection()
 
     def on_stop(self):
         self.client.shutdown()
 
-    @task
+
     def get_invite(self):
         invite = self.client.issuer_getinvite()
         self.invite = invite
 
-    @task
+
     def accept_invite(self):
         self.client.ensure_is_running()
 
@@ -36,7 +39,7 @@ class UserBehaviour(SequentialTaskSet):
         self.connection = connection
 
 
-    @task
+    
     def delete_connection(self):
         self.client.ensure_is_running()
         try:
