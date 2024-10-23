@@ -35,11 +35,6 @@ class UserBehaviour(SequentialTaskSet):
         connection = self.client.accept_invite(self.invite['invitation_url'])
         self.connection = connection
 
-    @task
-    def receive_credential(self):
-        self.client.ensure_is_running()
-
-        credential = self.client.receive_credential(self.invite['connection_id'])
 
     @task
     def delete_connection(self):

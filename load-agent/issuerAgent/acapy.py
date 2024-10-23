@@ -110,6 +110,24 @@ class AcapyIssuer(BaseIssuer):
                         "connection_id": r["connection_id"], 
                         "cred_ex_id": r["credential_exchange_id"]
                 }
+        
+        def delete_connection(self, connection_id):
+                headers = json.loads(os.getenv("ISSUER_HEADERS"))
+                headers["Content-Type"] = "application/json"
+
+                url = os.getenv("ISSUER_URL") + "/connections/{conn_id}".format(conn_id=connection_id)
+
+                r = requests.post(
+                        url,
+                        headers=headers,
+                )
+                if r.status_code != 200:
+                        raise Exception(r.content)
+
+                return r.json()  # return 
+
+
+
 
         def revoke_credential(self, connection_id, credential_exchange_id):
                 headers = json.loads(os.getenv("ISSUER_HEADERS"))

@@ -269,10 +269,10 @@ class CustomClient:
         return self.issuer.is_up()
 
     @stopwatch
-    def delete_oob(self, id):
-        self.run_command({"cmd": "deleteOobRecordById", "id": id})
-
-        line = self.readjsonline()
+    def delete_oob(self, connection_id):
+        r = self.issuer.delete_connection(connection_id)
+        return r
+        
 
     @stopwatch
     def accept_invite(self, invite, useConnectionDid=False):
