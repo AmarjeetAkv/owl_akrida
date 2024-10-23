@@ -1,3 +1,4 @@
+import logging
 from .base import BaseIssuer
 import json
 import os
@@ -112,6 +113,7 @@ class AcapyIssuer(BaseIssuer):
                 }
         
         def delete_connection(self, connection_id):
+                logging.basicConfig(level=logging.INFO)  # Set logging level to INFO
                 headers = json.loads(os.getenv("ISSUER_HEADERS"))
                 headers["Content-Type"] = "application/json"
 
@@ -121,11 +123,14 @@ class AcapyIssuer(BaseIssuer):
                         url,
                         headers=headers,
                 )
-                print(f" the response after deletion is {r.json}")
+
+                # Log the response after deletion
+                logging.info(f"The response after deletion is: {r.json()}")
+
                 if r.status_code != 200:
                         raise Exception(r.content)
 
-                return r.json()  # return 
+                return r.json()  # return the JSON response
 
 
 

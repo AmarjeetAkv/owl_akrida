@@ -1,3 +1,4 @@
+import logging
 from locust import events
 from json.decoder import JSONDecodeError
 import time
@@ -268,11 +269,14 @@ class CustomClient:
     def issuer_getliveness(self):
         return self.issuer.is_up()
 
+    logging.basicConfig(level=logging.INFO)  # Set up logging
+
     @stopwatch
     def delete_oob(self, connection_id):
         r = self.issuer.delete_connection(connection_id)
-        print(f"in client file to delete connection")
-        return r
+        
+        # Use logging instead of print
+        logging.info("In client file to delete connection")
         
 
     @stopwatch
