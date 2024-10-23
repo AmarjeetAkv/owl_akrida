@@ -272,7 +272,8 @@ class CustomClient:
     logging.basicConfig(level=logging.INFO)  # Set up logging
 
     @stopwatch
-    def delete_oob(self, id):
+    def delete_oob(self, id):   
+        print(f"the client function")
         self.run_command({"cmd": "deleteOobRecordById", "id": id})
 
         line = self.readjsonline()        
