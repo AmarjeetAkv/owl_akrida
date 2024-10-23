@@ -272,16 +272,9 @@ class CustomClient:
     logging.basicConfig(level=logging.INFO)  # Set up logging
 
     @stopwatch
-    def delete_oob(self, id):   
-        try:
-            print(f"the client function")
-            self.run_command({"cmd": "deleteOobRecordById", "id": id})
-            print(f"run the command in the client function and id {id}")
-
-            line = self.readjsonline()                
+    def delete_oob(self):   
+        line = self.readjsonline()                
             
-        except Exception as e:
-            print(f" exception error occured in client delete oob function {e}")
         return line["deleteOobRecordById"]
 
     @stopwatch
