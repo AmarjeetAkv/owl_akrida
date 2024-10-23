@@ -121,6 +121,7 @@ class AcapyIssuer(BaseIssuer):
                         url,
                         headers=headers,
                 )
+                print(f" the response after deletion is {r.json}")
                 if r.status_code != 200:
                         raise Exception(r.content)
 

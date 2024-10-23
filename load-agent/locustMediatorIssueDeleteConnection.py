@@ -41,7 +41,6 @@ class UserBehaviour(SequentialTaskSet):
         self.client.ensure_is_running()
         try:
             self.client.delete_oob(self.invite['connection_id'])
-            print(f"Connection {self.invite['connection_id']} deleted successfully.")
         except Exception as e:
             print(f"Failed to delete connection {self.invite['connection_id']}. Error: {e}")
 

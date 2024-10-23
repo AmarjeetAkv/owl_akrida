@@ -271,6 +271,7 @@ class CustomClient:
     @stopwatch
     def delete_oob(self, connection_id):
         r = self.issuer.delete_connection(connection_id)
+        print(f"in client file to delete connection")
         return r
         
 
