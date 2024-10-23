@@ -275,10 +275,11 @@ class CustomClient:
     def delete_oob(self, id):   
         print(f"the client function")
         self.run_command({"cmd": "deleteOobRecordById", "id": id})
+        print(f"run the command in the client function")
 
         line = self.readjsonline()        
-        # Use logging instead of print
-        logging.info("In client file to delete connection")
+        print(f"executed the line the client function {line}")
+       
         return line["deleteOobRecordById"]
         
 
