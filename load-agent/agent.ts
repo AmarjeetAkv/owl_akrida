@@ -359,9 +359,9 @@ let receiveInvitation = async (agent, invitationUrl) => {
         payload.connectionRecord.state === DidExchangeState.Completed
       ) {
         // the connection is now ready for usage in other protocols!
-        console.log(`connection record: ${payload.connectionRecord}`);
+        // console.log(`connection record: ${payload.connectionRecord}`);
         
-        console.log(`Connection for out-of-band id ${payload.connectionRecord.outOfBandId} completed`)
+        // console.log(`Connection for out-of-band id ${payload.connectionRecord.outOfBandId} completed`)
         
         conn_id = payload.connectionRecord.outOfBandId
         // Custom business logic can be included here
