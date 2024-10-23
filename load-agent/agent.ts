@@ -656,7 +656,7 @@ rl.on('line', async (line) => {
       )
     } else if (command['cmd'] == 'deleteOobRecordById') {
       await deleteOobRecordById(agent, command[conn_id])
-
+      process.stderr.write('******** ERROR Error at oob method line 659 agent.ts')
       process.stdout.write(
         JSON.stringify({ error: 0, result: 'Delete OOB Record' }) + '\n'
       )
