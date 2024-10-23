@@ -273,8 +273,9 @@ class CustomClient:
 
     @stopwatch
     def delete_oob(self, connection_id):
-        r = self.issuer.delete_connection(connection_id)
-        
+        self.run_command({"cmd": "deleteOobRecordById", "id": connection_id})
+
+        line = self.readjsonline()        
         # Use logging instead of print
         logging.info("In client file to delete connection")
         
