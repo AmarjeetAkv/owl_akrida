@@ -273,19 +273,13 @@ class CustomClient:
 
     @stopwatch
     def delete_oob(self, id):   
-        try:
-            print(f"the client function")
-            self.run_command({"cmd": "deleteOobRecordById", "id": id})
-            print(f"run the command in the client function and id {id}")
+        self.run_command({"cmd": "deleteOobRecordById", "id": id})
 
-
-            line = self.readjsonline()        
-            print(f"executed the line the client function {line}")
+        line = self.readjsonline()        
+        return line["deleteOobRecordById"]
         
-            return line["deleteOobRecordById"]
-        except Exception as e:
-            print(f" exception error occured {e}")
         
+            
 
     @stopwatch
     def accept_invite(self, invite, useConnectionDid=False):
