@@ -217,6 +217,7 @@ class CustomClient:
             self.agent.stdin.write(json.dumps(command))
             self.agent.stdin.write("\n")
             self.agent.stdin.flush()
+            # print(f'Agent deleted')
         except Exception as e:
             # if we get an exception here, we cannot run any new commands
             self.shutdown()
@@ -272,10 +273,10 @@ class CustomClient:
     logging.basicConfig(level=logging.INFO)  # Set up logging
 
     @stopwatch
-    def delete_oob(self):   
-        line = self.readjsonline()                
-            
-        return line["deleteOobRecordById"]
+    def delete_oob(self):
+        self.run_command({"cmd": "deleteOobRecordById"})
+        line = self.readjsonline()
+        return line
 
     @stopwatch
     def accept_invite(self, invite, useConnectionDid=False):
