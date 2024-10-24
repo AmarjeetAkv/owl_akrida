@@ -21,35 +21,27 @@ class UserBehaviour(SequentialTaskSet):
         self.client.startup(withMediation=bool(WITH_MEDIATION))
         self.get_invite()
         self.accept_invite()
-        self.delete_connection()
 
     def on_stop(self):
         self.client.shutdown()
 
-
+    
     def get_invite(self):
         invite = self.client.issuer_getinvite()
         self.invite = invite
 
-
+    
     def accept_invite(self):
         self.client.ensure_is_running()
 
         connection = self.client.accept_invite(self.invite['invitation_url'])
         self.connection = connection
 
-
-    
-    def delete_connection(self):
-        self.client.delete_oob()
-
-        
     @task
-    def ping_mediator(self):
+    def receive_credential(self):
         self.client.ensure_is_running()
 
-        self.client.ping_mediator()
-
+        credential = self.client.receive_credential(self.invite['connection_id'])
 
 class Issue(CustomLocust):
     tasks = [UserBehaviour]
