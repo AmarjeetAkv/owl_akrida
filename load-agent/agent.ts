@@ -339,8 +339,13 @@ const pingMediator = async (agent) => {
 }
 
 let deleteOobRecordById = async (agent, id) => {
-  //await agent.oob.deleteById(id);
-  await agent.connection.deleteById(id);
+  try {
+    // process.stderr.write('******** OOB  Id'+ '\n' + id + '\n')
+    await agent.oob.deleteById(id);
+  } catch (error) {
+    // process.stderr.write('******** OOB  deleteOobRecordById Error'+ '\n' + error + '\n')
+  }
+      
 };
 
 let receiveInvitation = async (agent, invitationUrl) => {
@@ -360,9 +365,9 @@ let receiveInvitation = async (agent, invitationUrl) => {
       ) {
         // the connection is now ready for usage in other protocols!
         // console.log(`connection record: ${payload.connectionRecord}`);
-        //process.stderr.write('******** ERROR Error at intialize agent'+ '\n' + payload.connectionRecord + '\n')
+        // process.stderr.write('******** onConnection payload'+ '\n' + JSON.stringify(payload) + '\n')
         // console.log(`Connection for out-of-band id ${payload.connectionRecord.outOfBandId} completed`)
-        
+        // process.stderr.write('******** onConnection outOfBandId'+ '\n' + payload.connectionRecord.outOfBandId + '\n')
         conn_id = payload.connectionRecord.outOfBandId
         // Custom business logic can be included here
         // In this example we can send a basic message to the connection, but
@@ -656,7 +661,7 @@ rl.on('line', async (line) => {
       )
     } else if (command['cmd'] == 'deleteOobRecordById') {
       await deleteOobRecordById(agent, command[conn_id])
-      process.stderr.write('******** ERROR Error at oob method line 659 agent.ts')
+
       process.stdout.write(
         JSON.stringify({ error: 0, result: 'Delete OOB Record' }) + '\n'
       )
