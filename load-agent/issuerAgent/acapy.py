@@ -116,10 +116,8 @@ class AcapyIssuer(BaseIssuer):
         def issue_non_revo_credential(self, connection_id):
                 headers = json.loads(os.getenv("ISSUER_HEADERS"))
                 headers["Content-Type"] = "application/json"
-                print(f" in acapy issuacne def ")
                 issuer_did = os.getenv("CRED_DEF_NR").split(":")[0]
                 schema_parts = os.getenv("SCHEMA_NR").split(":")
-                print(f" in acapy issuacne def  after schema part line 122")
 
                 r = requests.post(
                         os.getenv("ISSUER_URL") + "/issue-credential/send",
@@ -145,7 +143,6 @@ class AcapyIssuer(BaseIssuer):
                         raise Exception(r.content)
 
                 r = r.json()
-                print(f"response of issu non revo cred {r}")
 
                 return {
                         "connection_id": r["connection_id"], 

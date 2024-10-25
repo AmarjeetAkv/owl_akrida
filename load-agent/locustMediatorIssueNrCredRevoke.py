@@ -40,7 +40,6 @@ class UserBehaviour(SequentialTaskSet):
         self.client.ensure_is_running()
 
         self.credential = self.client.receive_credential_non_revo(self.invite['connection_id'])
-        print(f" testetding the call of non revo cred")
 
     @task
     def revoke_nr_credential(self):

@@ -305,12 +305,10 @@ class CustomClient:
     @stopwatch
     def receive_credential_non_revo(self, connection_id):
         self.run_command({"cmd": "receiveCredential"})
-        print(f"in client receive cred non revvo before issuer called")
 
         r = self.issuer.issue_non_revo_credential(connection_id)
 
         line = self.readjsonline()
-        print(f"printing after issuer is called ")
 
         return r
 
