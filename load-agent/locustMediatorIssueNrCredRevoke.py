@@ -43,7 +43,7 @@ class UserBehaviour(SequentialTaskSet):
         print(f" testetding the call of non revo cred")
 
     @task
-    def revoke_credential(self):
+    def revoke_nr_credential(self):
         self.client.ensure_is_running()
 
         self.client.revoke_credential_non_revo(self.credential)
