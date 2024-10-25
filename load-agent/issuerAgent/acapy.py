@@ -119,7 +119,7 @@ class AcapyIssuer(BaseIssuer):
                 print(f" in acapy issuacne def ")
                 issuer_did = os.getenv("CRED_DEF_NR").split(":")[0]
                 schema_parts = os.getenv("SCHEMA_NR").split(":")
-                print(f"issuer did and schema part {issuer_did} and {schema_parts}")
+                print(f"issuer did and schema part")
 
                 r = requests.post(
                         os.getenv("ISSUER_URL") + "/issue-credential/send",
