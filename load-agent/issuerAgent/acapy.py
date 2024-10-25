@@ -119,6 +119,7 @@ class AcapyIssuer(BaseIssuer):
 
                 issuer_did = os.getenv("CRED_DEF_NR").split(":")[0]
                 schema_parts = os.getenv("SCHEMA_NR").split(":")
+                print(f"issuer did and schema part {issuer_did} and {schema_parts}")
 
                 r = requests.post(
                         os.getenv("ISSUER_URL") + "/issue-credential/send",
@@ -126,13 +127,13 @@ class AcapyIssuer(BaseIssuer):
                                 "auto_remove": True,
                                 "comment": "Performance Issuance",
                                 "connection_id": connection_id,
-                                "cred_def_id": os.getenv("CRED_DEF"),
+                                "cred_def_id": os.getenv("CRED_DEF_NR"),
                                 "credential_proposal": {
                                 "@type": "issue-credential/1.0/credential-preview",
                                 "attributes": json.loads(os.getenv("CRED_ATTR")),
                                 },
                                 "issuer_did": issuer_did,
-                                "schema_id": os.getenv("SCHEMA"),
+                                "schema_id": os.getenv("SCHEMA_NR"),
                                 "schema_issuer_did": schema_parts[0],
                                 "schema_name": schema_parts[2],
                                 "schema_version": schema_parts[3],
@@ -144,6 +145,7 @@ class AcapyIssuer(BaseIssuer):
                         raise Exception(r.content)
 
                 r = r.json()
+                print(f"response of issu non revo cred {r}")
 
                 return {
                         "connection_id": r["connection_id"], 
