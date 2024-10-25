@@ -116,7 +116,7 @@ class AcapyIssuer(BaseIssuer):
         def issue_non_revo_credential(self, connection_id):
                 headers = json.loads(os.getenv("ISSUER_HEADERS"))
                 headers["Content-Type"] = "application/json"
-
+                print(f" in acapy issuacne def ")
                 issuer_did = os.getenv("CRED_DEF_NR").split(":")[0]
                 schema_parts = os.getenv("SCHEMA_NR").split(":")
                 print(f"issuer did and schema part {issuer_did} and {schema_parts}")
