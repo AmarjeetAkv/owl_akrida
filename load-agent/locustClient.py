@@ -301,6 +301,16 @@ class CustomClient:
         line = self.readjsonline()
 
         return r
+    
+    @stopwatch
+    def receive_credential_non_revo(self, connection_id):
+        self.run_command({"cmd": "receiveCredential"})
+
+        r = self.issuer.issue_non_revo_credential(connection_id)
+
+        line = self.readjsonline()
+
+        return r
 
     @stopwatch
     def verifier_getinvite(self):
@@ -326,6 +336,17 @@ class CustomClient:
             credential['connection_id'],
             credential['cred_ex_id']
         )
+
+
+    @stopwatch
+    def revoke_credential_non_revo(self, credential):
+        self.issuer.revoke_non_revo_credential(
+            credential['connection_id'],
+            credential['cred_ex_id']
+        )
+
+
+
 
     @stopwatch
     def msg_client(self, connection_id):
