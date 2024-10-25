@@ -117,8 +117,8 @@ class AcapyIssuer(BaseIssuer):
                 headers = json.loads(os.getenv("ISSUER_HEADERS"))
                 headers["Content-Type"] = "application/json"
                 print(f" in acapy issuacne def ")
-                issuer_did = os.getenv("CRED_DEF").split(":")[0]
-                schema_parts = os.getenv("SCHEMA").split(":")
+                issuer_did = os.getenv("CRED_DEF_NR").split(":")[0]
+                schema_parts = os.getenv("SCHEMA_NR").split(":")
                 print(f" in acapy issuacne def  after schema part line 122")
 
                 r = requests.post(
@@ -127,13 +127,13 @@ class AcapyIssuer(BaseIssuer):
                                 "auto_remove": True,
                                 "comment": "Performance Issuance",
                                 "connection_id": connection_id,
-                                "cred_def_id": os.getenv("CRED_DEF"),
+                                "cred_def_id": os.getenv("CRED_DEF_NR"),
                                 "credential_proposal": {
                                 "@type": "issue-credential/1.0/credential-preview",
-                                "attributes": json.loads(os.getenv("CRED_ATTR")),
+                                "attributes": json.loads(os.getenv("CRED_ATTR_NR")),
                                 },
                                 "issuer_did": issuer_did,
-                                "schema_id": os.getenv("SCHEMA"),
+                                "schema_id": os.getenv("SCHEMA_NR"),
                                 "schema_issuer_did": schema_parts[0],
                                 "schema_name": schema_parts[2],
                                 "schema_version": schema_parts[3],
