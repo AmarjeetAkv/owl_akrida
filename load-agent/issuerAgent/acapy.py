@@ -113,6 +113,57 @@ class AcapyIssuer(BaseIssuer):
                 }
         
 
+        
+        def issue_credential_v2_0(self, connection_id):
+                headers = json.loads(os.getenv("ISSUER_HEADERS"))
+                headers["Content-Type"] = "application/json"
+
+                issuer_did = os.getenv("CRED_DEF").split(":")[0]
+                schema_parts = os.getenv("SCHEMA").split(":")
+
+                r = requests.post(
+                        os.getenv("ISSUER_URL") + "/issue-credential-2.0/send",
+                        json={
+                        "auto_remove": True,
+                        "comment": "Performance Issuance",
+                        "connection_id": connection_id,
+                        "credential_preview": {
+                                "@type": "issue-credential/2.0/credential-preview",
+                                "attributes": json.loads(os.getenv("CRED_ATTR")),
+                        },
+                        "filter": {
+                                "indy": {
+                                "cred_def_id": os.getenv("CRED_DEF"),
+                                "issuer_did": issuer_did,
+                                "schema_id": os.getenv("SCHEMA"),
+                                "schema_issuer_did": schema_parts[0],
+                                "schema_name": schema_parts[2],
+                                "schema_version": schema_parts[3]
+                                },
+                                "vc_di": {
+                                "cred_def_id": os.getenv("CRED_DEF"),
+                                "issuer_did": issuer_did,
+                                "schema_id": os.getenv("SCHEMA"),
+                                "schema_issuer_did": schema_parts[0],
+                                "schema_name": schema_parts[2],
+                                "schema_version": schema_parts[3]
+                                }
+                        },
+                        "trace": True,
+                        },
+                        headers=headers,
+                )
+                if r.status_code != 200:
+                        raise Exception(r.content)
+
+                r = r.json()
+
+                return {
+                        "connection_id": r["connection_id"], 
+                        "cred_ex_id": r["credential_exchange_id"]
+                }
+
+
         def issue_non_revo_credential(self, connection_id):
                 headers = json.loads(os.getenv("ISSUER_HEADERS"))
                 headers["Content-Type"] = "application/json"
