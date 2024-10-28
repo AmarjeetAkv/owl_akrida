@@ -36,10 +36,10 @@ class UserBehaviour(SequentialTaskSet):
         self.connection = connection
 
     @task
-    def receive_credential(self):
+    def receive_cred_2_0(self):
         self.client.ensure_is_running()
 
-        credential = self.client.receive_credential_2_0(self.invite['connection_id'])
+        credential = self.client.receive_credential_lat_ver(self.invite['connection_id'])
 
 class Issue(CustomLocust):
     tasks = [UserBehaviour]

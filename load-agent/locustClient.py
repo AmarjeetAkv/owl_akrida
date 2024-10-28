@@ -305,10 +305,10 @@ class CustomClient:
 
 
     @stopwatch
-    def receive_credential_2_0(self, connection_id):
+    def receive_credential_lat_ver(self, connection_id):
         self.run_command({"cmd": "receiveCredential"})
 
-        r = self.issuer.issue_credential_v2_0(connection_id)
+        r = self.issuer.issue_credential_latest_version(connection_id)
 
         line = self.readjsonline()
 

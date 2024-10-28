@@ -113,8 +113,8 @@ class AcapyIssuer(BaseIssuer):
                 }
         
 
-        
-        def issue_credential_v2_0(self, connection_id):
+
+        def issue_credential_latest_version(self, connection_id):
                 headers = json.loads(os.getenv("ISSUER_HEADERS"))
                 headers["Content-Type"] = "application/json"
 
