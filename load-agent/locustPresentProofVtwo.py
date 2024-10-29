@@ -58,6 +58,7 @@ class UserBehaviour(SequentialTaskSet):
         self.client.ensure_is_running()
 
         # Need connection id
+        print(f"testing Locut Present proof")
         presentation = self.client.presentation_exchange_2_0(self.verifier_invite['connection_id'])
 
 

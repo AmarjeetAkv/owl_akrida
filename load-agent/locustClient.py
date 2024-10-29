@@ -307,6 +307,7 @@ class CustomClient:
     @stopwatch
     def receive_credential_v_2_0(self, connection_id):
         self.run_command({"cmd": "receiveCredential"})
+        
         r = self.issuer.issue_credential_ver2_0(connection_id)
 
         line = self.readjsonline()
@@ -342,12 +343,14 @@ class CustomClient:
     @stopwatch
     def presentation_exchange_2_0(self, connection_id):
         self.run_command({"cmd": "presentationExchange"})
-
+        print(f" printing from client  before  calling Acapy")
         pres_ex_id = self.verifier.request_verification_2_0(connection_id)
+        print(f" printing from client  after  calling Acapy and before verification")
 
         line = self.readjsonline()
         
         self.verifier.verify_verification_2_0(pres_ex_id)
+        print(f" after verficaiton print in client")
 
     @stopwatch
     def verifier_connectionless_request(self):

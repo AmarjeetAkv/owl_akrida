@@ -167,7 +167,7 @@ class AcapyVerifier(BaseVerifier):
 
                 verifier_did = os.getenv("CRED_DEF").split(":")[0]
                 schema_parts = os.getenv("SCHEMA").split(":")
-
+                print(f" acapy print in request before sending request")
                 # Might need to change nonce
                 # TO DO: Generalize schema parts
                 r = requests.post(
@@ -200,6 +200,7 @@ class AcapyVerifier(BaseVerifier):
                         )
                 
                 r = r.json()
+                print(f" the response after request is sent {r}")
 
                 return r['presentation_exchange_id']
 
@@ -250,7 +251,7 @@ class AcapyVerifier(BaseVerifier):
         def verify_verification(self, presentation_exchange_id):
                 headers = json.loads(os.getenv("VERIFIER_HEADERS"))  # headers same
                 headers["Content-Type"] = "application/json"
-                
+                print(f" in acapy verfircation verify")
                 # Want to do a for loop
                 iteration = 0
                 try:
