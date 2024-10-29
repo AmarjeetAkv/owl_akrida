@@ -117,43 +117,47 @@ class AcapyIssuer(BaseIssuer):
         def issue_credential_ver2_0(self, connection_id):
                 headers = json.loads(os.getenv("ISSUER_HEADERS"))
                 headers["Content-Type"] = "application/json"
-                print(f" acapy print before api call120")
+                print("acapy print before api call120")
+                
                 issuer_did = os.getenv("CRED_DEF").split(":")[0]
                 schema_parts = os.getenv("SCHEMA").split(":")
-                print(f" acapy print before api call123")
-
-                r = requests.post(
-                        os.getenv("ISSUER_URL") + "/issue-credential-2.0/send",
-                        json={
+                print("acapy print before api call123")
+                
+                payload = {
                         "auto_remove": True,
                         "comment": "Performance Issuance",
                         "connection_id": connection_id,
                         "credential_preview": {
-                                "@type": "issue-credential/2.0/credential-preview",
-                                "attributes": json.loads(os.getenv("CRED_ATTR")),
+                        "@type": "issue-credential/2.0/credential-preview",
+                        "attributes": json.loads(os.getenv("CRED_ATTR")),
                         },
                         "filter": {
-                                "indy": {
+                        "indy": {
                                 "cred_def_id": os.getenv("CRED_DEF"),
                                 "issuer_did": issuer_did,
                                 "schema_id": os.getenv("SCHEMA"),
                                 "schema_issuer_did": schema_parts[0],
                                 "schema_name": schema_parts[2],
                                 "schema_version": schema_parts[3]
-                                },
-                                "vc_di": {
+                        },
+                        "vc_di": {
                                 "cred_def_id": os.getenv("CRED_DEF"),
                                 "issuer_did": issuer_did,
                                 "schema_id": os.getenv("SCHEMA"),
                                 "schema_issuer_did": schema_parts[0],
                                 "schema_name": schema_parts[2],
                                 "schema_version": schema_parts[3]
-                                }
+                        }
                         },
                         "trace": True,
-                        },
-                        headers=headers,
+                }
+                print(f" the payload is {payload}")
+                r = requests.post(
+                        os.getenv("ISSUER_URL") + "/issue-credential-2.0/send",
+                        json=payload,
+                        headers=headers
                 )
+                
                 if r.status_code != 200:
                         raise Exception(r.content)
 
