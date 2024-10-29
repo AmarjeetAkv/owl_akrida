@@ -70,7 +70,7 @@ var config = require('./config.js')
 var deferred = require('deferred')
 var process = require('process')
 var readline = require('readline')
-let conn_id
+
 const characters =
   'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 const legacyIndyCredentialFormat = new LegacyIndyCredentialFormatService()
@@ -91,7 +91,6 @@ const initializeAgent = async (withMediation, port, agentConfig = null) => {
   // configuration and the label. It also sets the mediator invitation url,
   // because this is most likely required in a mobile environment.
   try {
-    // console.log('initializeAgent start');
   let mediation_url = config.mediation_url
   let endpoints = ['http://' + config.agent_ip + ':' + port]
 
@@ -118,12 +117,11 @@ const initializeAgent = async (withMediation, port, agentConfig = null) => {
   const anonCredsProofFormatService = new AnonCredsProofFormatService()
 
 
-  // console.log('ledger: ',config.ledger);
   
   let modules = {
     indyVdr: new IndyVdrModule({
       indyVdr,
-      networks: [config.ledger]    
+      networks: [config.ledger]
     }),
     askar: new AskarModule({
       ariesAskar,
@@ -182,31 +180,15 @@ const initializeAgent = async (withMediation, port, agentConfig = null) => {
     modules: modules
   })
   
-    const apps = express()
-    // console.log('Apps:',apps);
     const wsTransport = new WsOutboundTransport()
     const httpTransport = new HttpOutboundTransport()
-    // const socketServer = new WebSocketServer({ port:4003,host:'127.0.0.1' })
-    // console.log('socketServer:',socketServer)
-    // const wsInboundTransport = new WsInboundTransport({server:socketServer})
-    const httpInbound = new HttpInboundTransport({
-      port:4002,
-      app:apps,
-      path:'/'
-    })
-
-    // console.log('wsTransport: ',wsTransport)
-    // console.log('httpTransport: ',httpTransport)
-    // console.log('httpInbound: ',httpInbound)
-
-    agent.registerOutboundTransport(wsTransport)
-    agent.registerOutboundTransport(httpTransport)
-  // // console.log('Agent at line 202',agent);
+  
+  
   // Register a simple `WebSocket` outbound transport
-  // agent.registerOutboundTransport(new WsOutboundTransport())
+    agent.registerOutboundTransport(wsTransport)
 
-  // // Register a simple `Http` outbound transport
-  // agent.registerOutboundTransport(new HttpOutboundTransport())
+  // Register a simple `Http` outbound transport
+    agent.registerOutboundTransport(httpTransport)
 
   if (withMediation) {
     // wait for medation to be configured
@@ -262,10 +244,7 @@ const initializeAgent = async (withMediation, port, agentConfig = null) => {
       throw 'Mediator timeout!'
     }
   } else {
-    // console.log('withMediation elseee',port)
-    // agent.registerInboundTransport(
-    //   new HttpInboundTransport({ port: port })
-    // )
+    const httpInbound = new HttpInboundTransport({ port:port })
     agent.registerInboundTransport(httpInbound);
     await agent.initialize()
   }
@@ -273,12 +252,12 @@ const initializeAgent = async (withMediation, port, agentConfig = null) => {
   return [agent, agentConfig]
 
   } catch (error) {
-    // console.log('Error at intialize agent',error);
+
     process.stderr.write('******** ERROR Error at intialize agent'+ '\n' + error + '\n')
   }
   
 }
-// console.log('below initializeAgent')
+
 const pingMediator = async (agent) => {
   // Find mediator
 
@@ -332,13 +311,7 @@ const pingMediator = async (agent) => {
 }
 
 let deleteOobRecordById = async (agent, id) => {
-  try {
-    // process.stderr.write('******** OOB  Id'+ '\n' + id + '\n')
-    await agent.oob.deleteById(id);
-  } catch (error) {
-    // process.stderr.write('******** OOB  deleteOobRecordById Error'+ '\n' + error + '\n')
-  }
-      
+  await agent.oob.deleteById(id);
 };
 
 let receiveInvitation = async (agent, invitationUrl) => {
@@ -357,11 +330,7 @@ let receiveInvitation = async (agent, invitationUrl) => {
         payload.connectionRecord.state === DidExchangeState.Completed
       ) {
         // the connection is now ready for usage in other protocols!
-        // console.log(`connection record: ${payload.connectionRecord}`);
-        // process.stderr.write('******** onConnection payload'+ '\n' + JSON.stringify(payload) + '\n')
         // console.log(`Connection for out-of-band id ${payload.connectionRecord.outOfBandId} completed`)
-        // process.stderr.write('******** onConnection outOfBandId'+ '\n' + payload.connectionRecord.outOfBandId + '\n')
-        conn_id = payload.connectionRecord.outOfBandId
         // Custom business logic can be included here
         // In this example we can send a basic message to the connection, but
         // anything is possible
@@ -482,14 +451,12 @@ let receiveCredential = async (agent) => {
 
     switch (payload.credentialRecord.state) {
       case CredentialState.OfferReceived:
-        //console.log('received a credential')
         // custom logic here
         await agent.credentials.acceptOffer({
           credentialRecordId: payload.credentialRecord.id,
         })
         break
       case CredentialState.CredentialReceived:
-        //console.log(`Credential for credential id ${payload.credentialRecord.id} is accepted`)
         // For demo purposes we exit the program here.
 
         agent.events.off(
@@ -653,7 +620,7 @@ rl.on('line', async (line) => {
         JSON.stringify({ error: 0, result: 'Ping Mediator' }) + '\n'
       )
     } else if (command['cmd'] == 'deleteOobRecordById') {
-      await deleteOobRecordById(agent, command[conn_id])
+      await deleteOobRecordById(agent, command['id'])
 
       process.stdout.write(
         JSON.stringify({ error: 0, result: 'Delete OOB Record' }) + '\n'

@@ -307,9 +307,7 @@ class CustomClient:
     @stopwatch
     def receive_credential_v_2_0(self, connection_id):
         self.run_command({"cmd": "receiveCredential"})
-        print(f"print from client file before acapy is called ")
         r = self.issuer.issue_credential_ver2_0(connection_id)
-        print(f" print form client file")
 
         line = self.readjsonline()
 

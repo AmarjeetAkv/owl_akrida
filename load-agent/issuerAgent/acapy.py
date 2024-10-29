@@ -117,11 +117,9 @@ class AcapyIssuer(BaseIssuer):
         def issue_credential_ver2_0(self, connection_id):
                 headers = json.loads(os.getenv("ISSUER_HEADERS"))
                 headers["Content-Type"] = "application/json"
-                print("acapy print before api call120")
                 
                 issuer_did = os.getenv("CRED_DEF").split(":")[0]
                 schema_parts = os.getenv("SCHEMA").split(":")
-                print("acapy print before api call123")
                 
                 payload = {
                         "auto_remove": True,
@@ -143,7 +141,6 @@ class AcapyIssuer(BaseIssuer):
                         },
                         "trace": True,
                 }
-                print(f" the payload is {payload}")
                 r = requests.post(
                         os.getenv("ISSUER_URL") + "/issue-credential-2.0/send",
                         json=payload,
@@ -154,7 +151,6 @@ class AcapyIssuer(BaseIssuer):
                         raise Exception(r.content)
 
                 r = r.json()
-                print(f"printing the response from acapy {r}")
                 return {
                         "connection_id": r["connection_id"], 
                         "cred_ex_id": r["cred_ex_id"]
