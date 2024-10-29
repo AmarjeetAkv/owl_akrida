@@ -117,9 +117,10 @@ class AcapyIssuer(BaseIssuer):
         def issue_credential_ver2_0(self, connection_id):
                 headers = json.loads(os.getenv("ISSUER_HEADERS"))
                 headers["Content-Type"] = "application/json"
-
+                print(f" acapy print before api call120")
                 issuer_did = os.getenv("CRED_DEF").split(":")[0]
                 schema_parts = os.getenv("SCHEMA").split(":")
+                print(f" acapy print before api call123")
 
                 r = requests.post(
                         os.getenv("ISSUER_URL") + "/issue-credential-2.0/send",
