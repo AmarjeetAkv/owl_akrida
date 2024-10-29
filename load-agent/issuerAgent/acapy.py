@@ -114,7 +114,7 @@ class AcapyIssuer(BaseIssuer):
         
 
 
-        def issue_credential_latest_version(self, connection_id):
+        def issue_credential_ver2_0(self, connection_id):
                 headers = json.loads(os.getenv("ISSUER_HEADERS"))
                 headers["Content-Type"] = "application/json"
 
@@ -157,7 +157,7 @@ class AcapyIssuer(BaseIssuer):
                         raise Exception(r.content)
 
                 r = r.json()
-
+                print(f"printinh the response from acapy {r}")
                 return {
                         "connection_id": r["connection_id"], 
                         "cred_ex_id": r["credential_exchange_id"]
