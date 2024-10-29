@@ -309,6 +309,7 @@ class CustomClient:
         self.run_command({"cmd": "receiveCredential"})
 
         r = self.issuer.issue_credential_latest_version(connection_id)
+        print(f" print form client file")
 
         line = self.readjsonline()
 

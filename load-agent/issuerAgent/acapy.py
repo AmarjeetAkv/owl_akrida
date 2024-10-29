@@ -157,7 +157,7 @@ class AcapyIssuer(BaseIssuer):
                         raise Exception(r.content)
 
                 r = r.json()
-                print(f"printinh the response from acapy {r}")
+                print(f"printing the response from acapy {r}")
                 return {
                         "connection_id": r["connection_id"], 
                         "cred_ex_id": r["credential_exchange_id"]

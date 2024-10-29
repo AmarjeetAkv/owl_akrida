@@ -40,6 +40,7 @@ class UserBehaviour(SequentialTaskSet):
         self.client.ensure_is_running()
 
         credential = self.client.receive_credential_v_2_0(self.invite['connection_id'])
+        print(f"called form Vnew Locust File")
 
 class Issue(CustomLocust):
     tasks = [UserBehaviour]
