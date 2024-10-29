@@ -160,6 +160,50 @@ class AcapyVerifier(BaseVerifier):
                 return r['presentation_exchange_id']
         
 
+        def request_verification_2_0(self, connection_id):
+                # From verification side
+                headers = json.loads(os.getenv("VERIFIER_HEADERS"))  # headers same
+                headers["Content-Type"] = "application/json"
+
+                verifier_did = os.getenv("CRED_DEF").split(":")[0]
+                schema_parts = os.getenv("SCHEMA").split(":")
+
+                # Might need to change nonce
+                # TO DO: Generalize schema parts
+                r = requests.post(
+                        os.getenv("VERIFIER_URL") + "/present-proof-2.0/send-request",
+                        json={
+                                "auto_remove": False,
+                                "auto_verify": True,
+                                "comment": "Performance Verification",
+                                "connection_id": connection_id,
+                                "proof_request": {
+                                "name": "PerfScore",
+                                "requested_attributes": {
+                                        item["name"]: {"name": item["name"]}
+                                        for item in json.loads(os.getenv("CRED_ATTR"))
+                                },
+                                "requested_predicates": {},
+                                "version": "1.0",
+                                },
+                                "trace": True,
+                        },
+                        headers=headers,
+                )
+
+                try:
+                        if r.status_code != 200:
+                                raise Exception("Request was not successful: ", r.content)
+                except JSONDecodeError as e:
+                        raise Exception(
+                                "Encountered JSONDecodeError while parsing the request: ", r
+                        )
+                
+                r = r.json()
+
+                return r['presentation_exchange_id']
+
+
         def request_non_revo_verification(self, connection_id):
                 # From verification side
                 headers = json.loads(os.getenv("VERIFIER_HEADERS"))  # headers same
@@ -213,6 +257,40 @@ class AcapyVerifier(BaseVerifier):
                         while iteration < VERIFIED_TIMEOUT_SECONDS:
                                 g = requests.get(
                                         os.getenv("VERIFIER_URL") + f"/present-proof/records/{presentation_exchange_id}",
+                                        headers=headers,
+                                )
+                                if (
+                                        g.json()["state"] != "request_sent"
+                                        and g.json()["state"] != "presentation_received"
+                                ):
+                                        "request_sent" and g.json()["state"] != "presentation_received"
+                                        break
+                                iteration += 1
+                                time.sleep(1)
+
+                        if g.json()["verified"] != "true":
+                                raise AssertionError(
+                                        f"Presentation was not successfully verified. Presentation in state {g.json()['state']}"
+                                )
+
+                except JSONDecodeError as e:
+                        raise Exception(
+                                "Encountered JSONDecodeError while getting the presentation record: ", g
+                        )
+
+                return True
+        
+
+        def verify_verification_2_0(self, presentation_exchange_id):
+                headers = json.loads(os.getenv("VERIFIER_HEADERS"))  # headers same
+                headers["Content-Type"] = "application/json"
+                
+                # Want to do a for loop
+                iteration = 0
+                try:
+                        while iteration < VERIFIED_TIMEOUT_SECONDS:
+                                g = requests.get(
+                                        os.getenv("VERIFIER_URL") + f"/present-proof-2.0/records/{presentation_exchange_id}",
                                         headers=headers,
                                 )
                                 if (

@@ -338,6 +338,17 @@ class CustomClient:
         
         self.verifier.verify_verification(pres_ex_id)
 
+
+    @stopwatch
+    def presentation_exchange_2_0(self, connection_id):
+        self.run_command({"cmd": "presentationExchange"})
+
+        pres_ex_id = self.verifier.request_verification_2_0(connection_id)
+
+        line = self.readjsonline()
+        
+        self.verifier.verify_verification_2_0(pres_ex_id)
+
     @stopwatch
     def verifier_connectionless_request(self):
         return self.verifier.create_connectionless_request()
