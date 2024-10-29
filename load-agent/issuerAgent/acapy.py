@@ -139,14 +139,6 @@ class AcapyIssuer(BaseIssuer):
                                 "schema_issuer_did": schema_parts[0],
                                 "schema_name": schema_parts[2],
                                 "schema_version": schema_parts[3]
-                        },
-                        "vc_di": {
-                                "cred_def_id": os.getenv("CRED_DEF"),
-                                "issuer_did": issuer_did,
-                                "schema_id": os.getenv("SCHEMA"),
-                                "schema_issuer_did": schema_parts[0],
-                                "schema_name": schema_parts[2],
-                                "schema_version": schema_parts[3]
                         }
                         },
                         "trace": True,
