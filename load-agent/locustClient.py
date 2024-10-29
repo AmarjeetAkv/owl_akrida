@@ -308,7 +308,7 @@ class CustomClient:
     def receive_credential_v_2_0(self, connection_id):
         self.run_command({"cmd": "receiveCredential"})
 
-        r = self.issuer.issue_credential_latest_version(connection_id)
+        r = self.issuer.issue_credential_ver2_0(connection_id)
         print(f" print form client file")
 
         line = self.readjsonline()
