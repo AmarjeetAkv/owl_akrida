@@ -309,7 +309,7 @@ class AcapyVerifier(BaseVerifier):
                                         g.json()["state"] != "request-sent"
                                         and g.json()["state"] != "presentation-received"
                                 ):
-                                        "request_sent" and g.json()["state"] != "presentation-received"
+                                        "request-sent" and g.json()["state"] != "presentation-received"
                                         break
                                 iteration += 1
                                 time.sleep(1)
