@@ -156,7 +156,7 @@ class AcapyVerifier(BaseVerifier):
                         )
                 
                 r = r.json()
-                print(f" reposne from acapy when request is sent")
+                print(f" reposne from acapy when request is sent {r}")
 
                 return r['presentation_exchange_id']
         
