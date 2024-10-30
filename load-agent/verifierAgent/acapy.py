@@ -303,7 +303,7 @@ class AcapyVerifier(BaseVerifier):
                                         os.getenv("VERIFIER_URL") + f"/present-proof-2.0/records/{presentation_exchange_id}",
                                         headers=headers,
                                 )
-                                print(f" printing response when request in verify method is called")
+                                print(f" printing response when request in verify method is called {g}")
                                 if (
                                         g.json()["state"] != "request_sent"
                                         and g.json()["state"] != "presentation_received"
@@ -320,7 +320,7 @@ class AcapyVerifier(BaseVerifier):
 
                 except JSONDecodeError as e:
                         raise Exception(
-                                "Encountered JSONDecodeError while getting the presentation record: ", e
+                                "Encountered JSONDecodeError while getting the presentation record: ", g
                         )
 
                 return True
