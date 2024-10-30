@@ -156,7 +156,6 @@ class AcapyVerifier(BaseVerifier):
                         )
                 
                 r = r.json()
-                print(f" reposne from acapy when request is sent {r}")
 
                 return r['presentation_exchange_id']
         
@@ -168,7 +167,6 @@ class AcapyVerifier(BaseVerifier):
 
                 verifier_did = os.getenv("CRED_DEF").split(":")[0]
                 schema_parts = os.getenv("SCHEMA").split(":")
-                print(f" acapy print in request before sending request")
                 # Might need to change nonce
                 # TO DO: Generalize schema parts
                 
@@ -193,7 +191,6 @@ class AcapyVerifier(BaseVerifier):
                         "trace": True,
                         }
                         
-                print(f" pritning the pyload to send rprrof request {payload}")
                 r = requests.post(
                         os.getenv("VERIFIER_URL") + "/present-proof-2.0/send-request",
                         json=payload,
@@ -209,7 +206,6 @@ class AcapyVerifier(BaseVerifier):
                         )
                 
                 r = r.json()
-                print(f" the response after request is sent {r}")
 
                 return r['pres_ex_id']
 
@@ -260,7 +256,6 @@ class AcapyVerifier(BaseVerifier):
         def verify_verification(self, presentation_exchange_id):
                 headers = json.loads(os.getenv("VERIFIER_HEADERS"))  # headers same
                 headers["Content-Type"] = "application/json"
-                print(f" in acapy verfircation verify")
                 # Want to do a for loop
                 iteration = 0
                 try:
@@ -294,7 +289,6 @@ class AcapyVerifier(BaseVerifier):
         def verify_verification_2_0(self, pres_ex_id):
                 headers = json.loads(os.getenv("VERIFIER_HEADERS"))  # headers same
                 headers["Content-Type"] = "application/json"
-                print(f"in verify acapy before try")
                 # Want to do a for loop
                 iteration = 0
                 try:
@@ -304,7 +298,6 @@ class AcapyVerifier(BaseVerifier):
                                         headers=headers,
                                 )
                                 response_text = g.json()
-                                print(f" printing response when request in verify method is called {response_text}")
                                 if (
                                         g.json()["state"] != "request-sent"
                                         and g.json()["state"] != "presentation-received"

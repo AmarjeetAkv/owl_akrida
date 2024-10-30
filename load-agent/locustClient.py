@@ -344,12 +344,8 @@ class CustomClient:
     def presentation_exchange_2_0(self, connection_id):
         self.run_command({"cmd": "presentationExchange"})
         pres_ex_id = self.verifier.request_verification_2_0(connection_id)
-        print(f" printing from client  after  calling Acapy and before verification")
-
         line = self.readjsonline()
-        
         self.verifier.verify_verification_2_0(pres_ex_id)
-        print(f" after verficaiton print in client")
 
     @stopwatch
     def verifier_connectionless_request(self):
