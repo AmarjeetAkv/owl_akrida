@@ -54,7 +54,7 @@ class UserBehaviour(SequentialTaskSet):
         self.verifier_connection = verifier_connection
 
     @task
-    def presentation_exchange(self):
+    def presentation_exchange_2_0(self):
         self.client.ensure_is_running()
 
         # Need connection id
