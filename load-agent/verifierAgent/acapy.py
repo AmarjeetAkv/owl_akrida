@@ -211,7 +211,7 @@ class AcapyVerifier(BaseVerifier):
                 r = r.json()
                 print(f" the response after request is sent {r}")
 
-                return r['presentation_exchange_id']
+                return r['pres_ex_id']
 
 
         def request_non_revo_verification(self, connection_id):
@@ -257,7 +257,7 @@ class AcapyVerifier(BaseVerifier):
 
                 return r['presentation_exchange_id']
 
-        def verify_verification(self, presentation_exchange_id):
+        def verify_verification(self, pres_ex_id):
                 headers = json.loads(os.getenv("VERIFIER_HEADERS"))  # headers same
                 headers["Content-Type"] = "application/json"
                 print(f" in acapy verfircation verify")
@@ -266,7 +266,7 @@ class AcapyVerifier(BaseVerifier):
                 try:
                         while iteration < VERIFIED_TIMEOUT_SECONDS:
                                 g = requests.get(
-                                        os.getenv("VERIFIER_URL") + f"/present-proof/records/{presentation_exchange_id}",
+                                        os.getenv("VERIFIER_URL") + f"/present-proof/records/{pres_ex_id}",
                                         headers=headers,
                                 )
                                 if (
