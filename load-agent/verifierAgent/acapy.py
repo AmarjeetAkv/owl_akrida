@@ -170,22 +170,28 @@ class AcapyVerifier(BaseVerifier):
                 print(f" acapy print in request before sending request")
                 # Might need to change nonce
                 # TO DO: Generalize schema parts
+                
                 payload = {
-                                "auto_remove": False,
-                                "auto_verify": True,
-                                "comment": "Performance Verification",
-                                "connection_id": connection_id,
-                                "proof_request": {
-                                "name": "PerfScore",
+                        "auto_remove": False,
+                        "auto_verify": True,
+                        "comment": "Performance Verification",
+                        "connection_id": connection_id, 
+                        "presentation_request": {
+                                "indy": {
+                                "name": "PerfScore",  
                                 "requested_attributes": {
-                                        item["name"]: {"name": item["name"]}
+                                        item["name"]: {
+                                        "name": item["name"],
+                                        }
                                         for item in json.loads(os.getenv("CRED_ATTR"))
                                 },
                                 "requested_predicates": {},
                                 "version": "1.0",
-                                },
-                                "trace": True,
+                                }
+                        },
+                        "trace": True,
                         }
+                        
                 print(f" pritning the pyload to send rprrof request {payload}")
                 r = requests.post(
                         os.getenv("VERIFIER_URL") + "/present-proof-2.0/send-request",
