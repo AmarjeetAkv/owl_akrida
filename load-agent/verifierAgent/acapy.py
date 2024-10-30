@@ -303,7 +303,8 @@ class AcapyVerifier(BaseVerifier):
                                         os.getenv("VERIFIER_URL") + f"/present-proof-2.0/records/{presentation_exchange_id}",
                                         headers=headers,
                                 )
-                                print(f" printing response when request in verify method is called {g}")
+                                response_text = g.json()
+                                print(f" printing response when request in verify method is called {response_text}")
                                 if (
                                         g.json()["state"] != "request_sent"
                                         and g.json()["state"] != "presentation_received"
