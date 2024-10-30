@@ -343,7 +343,6 @@ class CustomClient:
     @stopwatch
     def presentation_exchange_2_0(self, connection_id):
         self.run_command({"cmd": "presentationExchange"})
-        print(f" printing from client  before  calling Acapy")
         pres_ex_id = self.verifier.request_verification_2_0(connection_id)
         print(f" printing from client  after  calling Acapy and before verification")
 

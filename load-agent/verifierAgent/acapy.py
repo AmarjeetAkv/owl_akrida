@@ -294,7 +294,7 @@ class AcapyVerifier(BaseVerifier):
         def verify_verification_2_0(self, presentation_exchange_id):
                 headers = json.loads(os.getenv("VERIFIER_HEADERS"))  # headers same
                 headers["Content-Type"] = "application/json"
-                
+                print(f"in verify acapy before try")
                 # Want to do a for loop
                 iteration = 0
                 try:
@@ -312,7 +312,7 @@ class AcapyVerifier(BaseVerifier):
                                 iteration += 1
                                 time.sleep(1)
 
-                        if g.json()["verified"] != "true":
+                        if g.json()["done"] != "true":
                                 raise AssertionError(
                                         f"Presentation was not successfully verified. Presentation in state {g.json()['state']}"
                                 )
