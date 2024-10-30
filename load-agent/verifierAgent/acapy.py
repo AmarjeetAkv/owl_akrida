@@ -314,7 +314,7 @@ class AcapyVerifier(BaseVerifier):
                                 iteration += 1
                                 time.sleep(1)
 
-                        if g.json()["done"] != "true":
+                        if g.json()["verified"] != "true":
                                 raise AssertionError(
                                         f"Presentation was not successfully verified. Presentation in state {g.json()['state']}"
                                 )
