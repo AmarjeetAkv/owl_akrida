@@ -306,10 +306,10 @@ class AcapyVerifier(BaseVerifier):
                                 response_text = g.json()
                                 print(f" printing response when request in verify method is called {response_text}")
                                 if (
-                                        g.json()["state"] != "request_sent"
-                                        and g.json()["state"] != "presentation_received"
+                                        g.json()["state"] != "request-sent"
+                                        and g.json()["state"] != "presentation-received"
                                 ):
-                                        "request_sent" and g.json()["state"] != "presentation_received"
+                                        "request_sent" and g.json()["state"] != "presentation-received"
                                         break
                                 iteration += 1
                                 time.sleep(1)
