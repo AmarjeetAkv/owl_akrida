@@ -217,7 +217,6 @@ class CustomClient:
             self.agent.stdin.write(json.dumps(command))
             self.agent.stdin.write("\n")
             self.agent.stdin.flush()
-            # print(f'Agent deleted')
         except Exception as e:
             # if we get an exception here, we cannot run any new commands
             self.shutdown()

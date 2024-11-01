@@ -28,17 +28,9 @@ class UserBehaviour(SequentialTaskSet):
         self.connection = connection
     @task
     def delete_connection(self):
-        # print(f'Called delete connection')
         self.client.delete_oob()
-        # print(f'Called delete connection below')
-    # @task
-    # def receive_credential(self):
-    #     self.client.ensure_is_running()
-    #     self.credential = self.client.receive_credential(self.invite['connection_id'])
-    # @task
-    # def revoke_credential(self):
-    #     self.client.ensure_is_running()
-    #     self.client.revoke_credential(self.credential)
+
+    
 class Issue(CustomLocust):
     tasks = [UserBehaviour]
     wait_time = between(float(os.getenv('LOCUST_MIN_WAIT',0.1)), float(os.getenv('LOCUST_MAX_WAIT',1)))
