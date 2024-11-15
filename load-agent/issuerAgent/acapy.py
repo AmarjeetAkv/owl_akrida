@@ -146,6 +146,7 @@ class AcapyIssuer(BaseIssuer):
                         json=payload,
                         headers=headers
                 )
+                print(f"the response of issued cred is {r.json}")
                 
                 if r.status_code != 200:
                         raise Exception(r.content)
