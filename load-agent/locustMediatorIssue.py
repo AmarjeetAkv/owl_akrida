@@ -40,6 +40,7 @@ class UserBehaviour(SequentialTaskSet):
         self.client.ensure_is_running()
 
         credential = self.client.receive_credential(self.invite['connection_id'])
+        print(f"crdential = {credential}")
 
 class Issue(CustomLocust):
     tasks = [UserBehaviour]

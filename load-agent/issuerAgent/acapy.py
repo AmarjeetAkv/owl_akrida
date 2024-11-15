@@ -106,6 +106,7 @@ class AcapyIssuer(BaseIssuer):
                         raise Exception(r.content)
 
                 r = r.json()
+                print(f"the response of issued cred is {r}")
 
                 return {
                         "connection_id": r["connection_id"], 
