@@ -93,9 +93,9 @@ class AcapyIssuer(BaseIssuer):
                                 "@type": "issue-credential/1.0/credential-preview",
                                 "attributes": json.loads(os.getenv("CRED_ATTR")),
                                 },
-                                "issuer_did": issuer_did,
+                                
                                 "schema_id": os.getenv("SCHEMA"),
-                                "schema_issuer_did": schema_parts[0],
+                              
                                 "schema_name": schema_parts[2],
                                 "schema_version": schema_parts[3],
                                 "trace": True,
@@ -106,8 +106,6 @@ class AcapyIssuer(BaseIssuer):
                         raise Exception(r.content)
 
                 r = r.json()
-                print(f"the response of issued cred is {r}")
-
                 return {
                         "connection_id": r["connection_id"], 
                         "cred_ex_id": r["credential_exchange_id"]
@@ -121,7 +119,6 @@ class AcapyIssuer(BaseIssuer):
                 
                 issuer_did = os.getenv("CRED_DEF").split(":")[0]
                 schema_parts = os.getenv("SCHEMA").split(":")
-                
                 payload = {
                         "auto_remove": True,
                         "comment": "Performance Issuance",
@@ -147,7 +144,6 @@ class AcapyIssuer(BaseIssuer):
                         json=payload,
                         headers=headers
                 )
-                print(f"the response of issued cred is {r.json}")
                 
                 if r.status_code != 200:
                         raise Exception(r.content)

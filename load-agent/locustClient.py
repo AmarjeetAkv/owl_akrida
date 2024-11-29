@@ -152,7 +152,6 @@ class CustomClient:
             if self.agent is None or self.agent.poll() is not None:
                 raise Exception("unable to start")
         except Exception as e:
-            print('error at startup:',e)
             self.shutdown()
             raise e
 

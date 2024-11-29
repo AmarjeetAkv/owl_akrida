@@ -1,0 +1,32 @@
+moving from askar to askar-anoncred
+
+1. Delete old containers
+2.In issuer.yml (instance-configs/acapy-agent/configs/issuer.yml) and change the wallet type
+wallet-type: askar-anoncreds
+3.In issue-credential_2.0.py  from payload json 
+payload = {
+                        "auto_remove": True,
+                        "comment": "Performance Issuance",
+                        "connection_id": connection_id,
+                        "credential_preview": {
+                        "@type": "issue-credential/2.0/credential-preview",
+                        "attributes": json.loads(os.getenv("CRED_ATTR")),
+                        },
+                        "filter": {
+                        "indy": {
+                                "cred_def_id": os.getenv("CRED_DEF"),
+                             
+                                "schema_id": os.getenv("SCHEMA"),
+                              
+                                "schema_name": schema_parts[2],
+                                "schema_version": schema_parts[3]
+                        }
+                        },
+                        "trace": True,
+                        
+                
+                        }
+
+
+
+Dont use IssuerDId and schema_issuer_did  in Json 
